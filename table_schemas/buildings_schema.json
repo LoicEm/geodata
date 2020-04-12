@@ -1,0 +1,26 @@
+[
+  {
+    "name":"id",
+    "description":"id of the object",
+    "mode":"REQUIRED",
+    "type":"INTEGER"
+  },
+  {
+    "name":"geometry",
+    "description":"object geometry",
+    "mode":"REQUIRED",
+    "type":"GEOGRAPHY"
+  },
+  {
+    "name":"epsg",
+    "description":"spatial reference",
+    "mode":"REQUIRED",
+    "type":"INTEGER"
+  },
+  {
+    "name":"ingested_at",
+    "description":"timestamp of ingestion",
+    "mode":"REQUIRED",
+    "type":"TIMESTAMP"
+  }
+]
