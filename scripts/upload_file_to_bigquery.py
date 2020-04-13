@@ -1,22 +1,12 @@
 """Upload the data contained in a csv file into bigquery."""
 
 import argparse
-import logging
 import sys
 
 import geopandas
 from google.cloud import bigquery
 import pandas
 import shapely.wkt
-
-
-logger = logging.getLogger('pandas_gbq')
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-logger.setLevel(logging.DEBUG)
-logger.addHandler(handler)
 
 
 expected_columns = {"id", "geometry", "epsg"}
@@ -59,8 +49,6 @@ def main(file_paths: str, data_type: str):
         df['ingested_at'] = pandas.Timestamp.utcnow()  # timestamp is UTC to avoid execution to be location dependent
         table_name = f"geodata_raw.{data_type}"
         table_schema = get_table_schema(table_name)
-        print(table_schema)
-        print(df.head())
         print(f"inserting {len(df)} rows in {table_name}")
         df.to_gbq(table_name, if_exists="append", table_schema=table_schema)
 
