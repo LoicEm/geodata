@@ -55,10 +55,8 @@ def read_geodataframe_from_csv(file_path: str) -> geopandas.GeoDataFrame:
 
 def main(file_paths: str, data_type: str):
     for path in file_paths:
-        df = pandas.read_csv(path)
-        df['geometry'] = df['geometry'].str.replace("MULTIPOLYGON", "POLYGON")
+        df = read_geodataframe_from_csv(path)
         df['ingested_at'] = pandas.Timestamp.utcnow()  # timestamp is UTC to avoid execution to be location dependent
-
         table_name = f"geodata_raw.{data_type}"
         table_schema = get_table_schema(table_name)
         print(table_schema)
