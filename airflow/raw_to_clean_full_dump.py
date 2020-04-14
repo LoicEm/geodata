@@ -58,10 +58,10 @@ with dag:
             SELECT 
                 id, 
                 epsg, 
-                ST_GEOGFROMTEXT(geometry) as geometry, 
+                SAFE.ST_GEOGFROMTEXT(geometry) as geometry, 
                 CURRENT_TIMESTAMP() as ingested_at
             FROM {DATASET_RAW}.{table}
-            WHERE ST_GEOGFROMTEXT(geometry) is not NULL
+            WHERE SAFE.ST_GEOGFROMTEXT(geometry) is not NULL
         """
 
         etl_operator = BigQueryOperator(sql=ingestion_query,
