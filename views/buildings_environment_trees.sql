@@ -8,8 +8,9 @@ with subrequest as (
         COUNT(*) OVER (PARTITION BY buildings.id) AS n_trees_within_100_meters,
         ROW_NUMBER() OVER (PARTITION BY buildings.id
                            ORDER BY ST_DISTANCE(buildings.geometry, trees.geometry)) AS rk
-      FROM geodata_clean.buildings, geodata_clean.trees
-      WHERE ST_DISTANCE(buildings.geometry, trees.geometry) < 100)
+      FROM `{project_id}.snapshot.buildings`, `{project_id}.snapshot.trees`
+      WHERE ST_DISTANCE(buildings.geometry, trees.geometry) <= 100
+            AND ST_DISTANCE(buildings.geometry, trees.geometry) > 0)
 SELECT building_id, tree_id as closest_tree_id, n_trees_within_100_meters
 FROM subrequest
 where rk = 1
